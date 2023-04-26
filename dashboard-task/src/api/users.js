@@ -15,7 +15,7 @@ export const getUsers = (callback) => {
 
 export const getUser = (id) => {
   const token = JSON.parse(localStorage.getItem("token"));
-  axios.get(`${BASE_URL}users/admin/${id}`, {
+  axios.get(`${BASE_URL}users/self/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };

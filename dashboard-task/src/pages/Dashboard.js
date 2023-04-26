@@ -5,14 +5,13 @@ import { TableHeader } from "../components/TableHeader";
 import { Navbar } from "../components/Navbar";
 
 export const Dashboard = () => {
-  const [users, setUsers] = useState;
+  const [users, setUsers] = useState();
   useEffect(() => {
     getUsers(function (res) {
-      console.log("response --->", res?.data?.users);
+      setUsers(res?.data);
     });
   }, []);
-  // const data = getUsers();
-  // console.log("data", data);
+
   return (
     <div classname="container">
       <Navbar />
@@ -21,16 +20,18 @@ export const Dashboard = () => {
           <TableHeader />
 
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td>
-                <button class="btn btn-info btn-sm">Edit</button>
-                <button class="btn btn-danger btn-sm">Delete</button>
-              </td>
-            </tr>
+            {users?.map((user, index) => (
+              <tr key={user._id}>
+                <th scope="row">{index}</th>
+                <td>{user?.firstName ?? ""}</td>
+                <td>{user?.lastName ?? ""}</td>
+                <td>{user?.email ?? ""}</td>
+                <td>
+                  <button class="btn btn-info btn-sm">Edit</button>
+                  <button class="btn btn-danger btn-sm">Delete</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
