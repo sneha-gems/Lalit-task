@@ -35,11 +35,11 @@ export const Navbar = () => {
                 Profile
               </a>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a className="nav-link" href="/register">
                 Sign Up
               </a>
-            </li>
+            </li> */}
             <li className="nav-item">
               <a className="nav-link" href="/dashboard">
                 Dashboard

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Profile } from "./pages/Profile";
 import { PageNotFound } from "./pages/PageNotFound";
 import { UserContext } from "./context";
+import { Navigate } from "react-router-dom";
 
 function App() {
   const navigate = useNavigate();
@@ -27,6 +28,10 @@ function App() {
     <UserContext.Provider value={{ user, setUser }}>
       <div className="App">
         <Routes>
+          <Route
+            path="/"
+            element={<Navigate to={token ? "/dashboard" : "/login"} />}
+          />
           <Route index path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />

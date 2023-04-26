@@ -7,13 +7,15 @@ import { deleteUser } from "../api/user";
 import { ModalDialog } from "../components/Modal";
 import { useFormik } from "formik";
 import { Col, Row } from "react-bootstrap";
-import { addRoles, deleteRoles, getRoles } from "../api/roles";
-import { permissionArray, rolesHeader, userHeader } from "../constant";
+import { addRoles, getRoles } from "../api/roles";
+import { permissionArray } from "../constant";
+import { UserTable } from "../components/UserTable";
+import { RolesTable } from "../components/RolesTable";
+import { CategoryTable } from "../components/CategoryTable";
 
 export const Dashboard = () => {
-  const [users, setUsers] = useState();
-  const [roles, setRoles] = useState();
   const [show, setShow] = useState(false);
+  const [roles, setRoles] = useState([]);
 
   const formik = useFormik({
     initialValues: {
@@ -42,30 +44,11 @@ export const Dashboard = () => {
     onSubmit: (values) => {
       addRoles(values);
       setShow(false);
+      getRoles(function (res) {
+        setRoles(res?.data);
+      });
     },
   });
-
-  useEffect(() => {
-    getUsers(function (res) {
-      setUsers(res?.data);
-    });
-  }, [users]);
-
-  useEffect(() => {
-    getRoles(function (res) {
-      setRoles(res?.data);
-    });
-  }, [roles]);
-
-  const handleDeleteUser = (id) => {
-    deleteUser(id);
-    setUsers(users.filter((user) => user.id !== id));
-  };
-
-  const handleDeleteRoles = (id) => {
-    deleteRoles(id);
-    setRoles(roles.filter((role) => role.id !== id));
-  };
 
   return (
     <div className="container">
@@ -75,50 +58,12 @@ export const Dashboard = () => {
       </div>
       <div className="table-responsive mt-3">
         <h1>Users List</h1>
-        <table className="table table-bordered">
-          <TableHeader data={userHeader} />
-          <tbody>
-            {users?.map((user, index) => (
-              <tr key={user._id}>
-                <th scope="row">{index}</th>
-                <td>{user?.firstName ?? ""}</td>
-                <td>{user?.lastName ?? ""}</td>
-                <td>{user?.email ?? ""}</td>
-                <td>
-                  <button className="btn btn-info btn-sm">Edit</button>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDeleteUser(user._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <UserTable />
         <h1>Roles List</h1>
-        <table className="table table-bordered">
-          <TableHeader data={rolesHeader} />
-          <tbody>
-            {roles?.map((role, index) => (
-              <tr key={role._id}>
-                <th scope="row">{index}</th>
-                <td>{role?.roleName ?? ""}</td>
+        <RolesTable roles={roles} setRoles={setRoles} />
 
-                <td>
-                  <button className="btn btn-info btn-sm">Edit</button>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDeleteRoles(role._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <h1>Category List</h1>
+        <CategoryTable />
         <ModalDialog
           show={show}
           title={"Add Roles"}
@@ -141,13 +86,16 @@ export const Dashboard = () => {
               <Col className="mx-2 py-2">
                 <label> User Permissions</label>
                 {permissionArray.map((per) => (
-                  <input
-                    type="checkbox"
-                    id={`user-${per}`}
-                    name={`permissions.user.${per}`}
-                    onChange={formik.handleChange}
-                    value={formik.values.permissions.user.per}
-                  />
+                  <div className="px-2">
+                    <label className="px-1">{per}</label>
+                    <input
+                      type="checkbox"
+                      id={`user-${per}`}
+                      name={`permissions.user.${per}`}
+                      onChange={formik.handleChange}
+                      value={formik.values.permissions.user.per}
+                    />
+                  </div>
                 ))}
               </Col>
             </Row>
@@ -155,13 +103,16 @@ export const Dashboard = () => {
               <Col className="mx-2 py-2">
                 <label> Role Permissions</label>
                 {permissionArray.map((per) => (
-                  <input
-                    type="checkbox"
-                    id={`role-${per}`}
-                    name={`permissions.role.${per}`}
-                    onChange={formik.handleChange}
-                    value={formik.values.permissions.role.per}
-                  />
+                  <div className="px-2">
+                    <label className="px-1">{per}</label>
+                    <input
+                      type="checkbox"
+                      id={`role-${per}`}
+                      name={`permissions.role.${per}`}
+                      onChange={formik.handleChange}
+                      value={formik.values.permissions.role.per}
+                    />
+                  </div>
                 ))}
               </Col>
             </Row>
@@ -169,13 +120,16 @@ export const Dashboard = () => {
               <Col className="mx-2 py-2">
                 <label> Category Permissions</label>
                 {permissionArray.map((per) => (
-                  <input
-                    type="checkbox"
-                    id={`category-${per}`}
-                    name={`permissions.category.${per}`}
-                    onChange={formik.handleChange}
-                    value={formik.values.permissions.category.per}
-                  />
+                  <div className="px-2">
+                    <label className="px-1">{per}</label>
+                    <input
+                      type="checkbox"
+                      id={`category-${per}`}
+                      name={`permissions.category.${per}`}
+                      onChange={formik.handleChange}
+                      value={formik.values.permissions.category.per}
+                    />
+                  </div>
                 ))}
               </Col>
             </Row>
