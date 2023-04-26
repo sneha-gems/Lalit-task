@@ -6,7 +6,8 @@ export const login = (data, callback) => {
     .post(`${BASE_URL}auth/login`, data)
     .then((response) => {
       localStorage.setItem("token", JSON.stringify(response?.data?.token));
+      localStorage.setItem("User", JSON.stringify(response?.data));
       callback(response);
     })
-    .catch((error) => alert(error));
+    .catch((error) => alert(error?.response?.data?.error?.message));
 };

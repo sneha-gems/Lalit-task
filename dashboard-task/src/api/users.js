@@ -10,7 +10,7 @@ export const getUsers = (callback) => {
       console.log(res);
       callback(res);
     })
-    .catch((error) => alert(error));
+    .catch((error) => alert(error?.response?.data?.error?.message));
 };
 
 export const getUser = (id) => {

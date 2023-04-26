@@ -17,7 +17,7 @@ export const getCategories = (callback) => {
     .then((res) => {
       callback(res);
     })
-    .catch((err) => alert(err));
+    .catch((err) => alert(err?.response?.data?.error?.message));
 };
 
 export const deleteCategory = (id) => {

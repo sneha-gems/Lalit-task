@@ -4,7 +4,7 @@ import { getUsers } from "../api/users";
 import { userHeader } from "../constant";
 import { TableHeader } from "./TableHeader";
 
-export const UserTable = () => {
+export const UserTable = ({ permissions }) => {
   const [users, setUsers] = useState([]);
   const handleDeleteUser = (id) => {
     deleteUser(id);
@@ -28,12 +28,14 @@ export const UserTable = () => {
             <td>{user?.lastName ?? ""}</td>
             <td>{user?.email ?? ""}</td>
             <td>
-              <button
-                className="btn btn-danger btn-sm"
-                onClick={() => handleDeleteUser(user._id)}
-              >
-                Delete
-              </button>
+              {permissions.delete && (
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => handleDeleteUser(user._id)}
+                >
+                  Delete
+                </button>
+              )}
             </td>
           </tr>
         ))}

@@ -1,9 +1,6 @@
-import { useEffect, useState } from "react";
-import { getUsers } from "../api/users";
+import { useState, useMemo } from "react";
 import "../App.css";
-import { TableHeader } from "../components/TableHeader";
 import { Navbar } from "../components/Navbar";
-import { deleteUser } from "../api/user";
 import { ModalDialog } from "../components/Modal";
 import { useFormik } from "formik";
 import { Col, Row } from "react-bootstrap";
@@ -16,6 +13,8 @@ import { CategoryTable } from "../components/CategoryTable";
 export const Dashboard = () => {
   const [show, setShow] = useState(false);
   const [roles, setRoles] = useState([]);
+
+  const user = useMemo(() => JSON.parse(localStorage.getItem("User")), []);
 
   const formik = useFormik({
     initialValues: {
@@ -53,17 +52,38 @@ export const Dashboard = () => {
   return (
     <div className="container">
       <Navbar />
-      <div>
-        <button onClick={() => setShow(true)}>Add Roles</button>
-      </div>
-      <div className="table-responsive mt-3">
-        <h1>Users List</h1>
-        <UserTable />
-        <h1>Roles List</h1>
-        <RolesTable roles={roles} setRoles={setRoles} />
+      {user.rolePermission.permissions.role.add && (
+        <div>
+          <button onClick={() => setShow(true)}>Add Roles</button>
+        </div>
+      )}
 
-        <h1>Category List</h1>
-        <CategoryTable />
+      <div className="table-responsive mt-3">
+        {user.rolePermission.permissions.user.view && (
+          <>
+            <h1>Users List</h1>
+            <UserTable permissions={user.rolePermission.permissions.user} />
+          </>
+        )}
+        {user.rolePermission.permissions.role.view && (
+          <>
+            <h1>Roles List</h1>
+            <RolesTable
+              roles={roles}
+              setRoles={setRoles}
+              permissions={user.rolePermission.permissions.role}
+            />
+          </>
+        )}
+        {user.rolePermission.permissions.category.view && (
+          <>
+            <h1>Category List</h1>
+            <CategoryTable
+              permissions={user.rolePermission.permissions.category}
+            />
+          </>
+        )}
+
         <ModalDialog
           show={show}
           title={"Add Roles"}

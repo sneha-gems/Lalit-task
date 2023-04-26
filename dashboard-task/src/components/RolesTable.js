@@ -3,7 +3,7 @@ import { deleteRoles, getRoles } from "../api/roles";
 import { rolesHeader } from "../constant";
 import { TableHeader } from "./TableHeader";
 
-export const RolesTable = ({ roles, setRoles }) => {
+export const RolesTable = ({ roles, setRoles, permissions }) => {
   const handleDeleteRoles = (id) => {
     deleteRoles(id);
     setRoles(roles.filter((role) => role._id !== id));
@@ -25,13 +25,17 @@ export const RolesTable = ({ roles, setRoles }) => {
             <td>{role?.roleName ?? ""}</td>
 
             <td>
-              <button className="btn btn-info btn-sm">Edit</button>
-              <button
-                className="btn btn-danger btn-sm"
-                onClick={() => handleDeleteRoles(role._id)}
-              >
-                Delete
-              </button>
+              {/* {permissions.edit && (
+                <button className="btn btn-info btn-sm">Edit</button>
+              )} */}
+              {permissions.delete && (
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => handleDeleteRoles(role._id)}
+                >
+                  Delete
+                </button>
+              )}
             </td>
           </tr>
         ))}

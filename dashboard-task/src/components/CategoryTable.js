@@ -3,9 +3,8 @@ import { deleteCategory, getCategories } from "../api/category";
 import { categoryHeader } from "../constant";
 import { TableHeader } from "./TableHeader";
 
-export const CategoryTable = () => {
+export const CategoryTable = ({ permissions }) => {
   const [category, setCategory] = useState();
-
   useEffect(() => {
     getCategories(function (res) {
       setCategory(res?.data);
@@ -27,12 +26,14 @@ export const CategoryTable = () => {
             <td>{item?.description ?? ""}</td>
 
             <td>
-              <button
-                className="btn btn-danger btn-sm"
-                onClick={() => handleDelete(item._id)}
-              >
-                Delete
-              </button>
+              {permissions.delete && (
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => handleDelete(item._id)}
+                >
+                  Delete
+                </button>
+              )}
             </td>
           </tr>
         ))}
