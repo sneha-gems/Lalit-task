@@ -1,14 +1,19 @@
+//package import
 import { useState, useMemo } from "react";
-import "../App.css";
-import { Navbar } from "../components/Navbar";
-import { ModalDialog } from "../components/Modal";
 import { useFormik } from "formik";
 import { Col, Row } from "react-bootstrap";
+
+//custom files import
 import { addRoles, getRoles } from "../api/roles";
-import { permissionArray } from "../constant";
+import { permissionArray, rolesInitialState } from "../constant";
 import { UserTable } from "../components/UserTable";
 import { RolesTable } from "../components/RolesTable";
 import { CategoryTable } from "../components/CategoryTable";
+import { Navbar } from "../components/Navbar";
+import { ModalDialog } from "../components/Modal";
+
+//CSS file import
+import "../App.css";
 
 export const Dashboard = () => {
   const [show, setShow] = useState(false);
@@ -17,29 +22,7 @@ export const Dashboard = () => {
   const user = useMemo(() => JSON.parse(localStorage.getItem("User")), []);
 
   const formik = useFormik({
-    initialValues: {
-      roleName: "",
-      permissions: {
-        user: {
-          add: false,
-          edit: false,
-          view: false,
-          delete: false,
-        },
-        role: {
-          add: false,
-          edit: false,
-          view: false,
-          delete: false,
-        },
-        category: {
-          add: false,
-          edit: false,
-          view: false,
-          delete: false,
-        },
-      },
-    },
+    initialValues: rolesInitialState,
     onSubmit: (values) => {
       addRoles(values);
       setShow(false);
@@ -105,8 +88,8 @@ export const Dashboard = () => {
             <Row>
               <Col className="mx-2 py-2">
                 <label> User Permissions</label>
-                {permissionArray.map((per) => (
-                  <div className="px-2">
+                {permissionArray.map((per, index) => (
+                  <div className="px-2" key={`user-${index}`}>
                     <label className="px-1">{per}</label>
                     <input
                       type="checkbox"
@@ -122,8 +105,8 @@ export const Dashboard = () => {
             <Row>
               <Col className="mx-2 py-2">
                 <label> Role Permissions</label>
-                {permissionArray.map((per) => (
-                  <div className="px-2">
+                {permissionArray.map((per, index) => (
+                  <div className="px-2" key={`role-${index}`}>
                     <label className="px-1">{per}</label>
                     <input
                       type="checkbox"
@@ -139,8 +122,8 @@ export const Dashboard = () => {
             <Row>
               <Col className="mx-2 py-2">
                 <label> Category Permissions</label>
-                {permissionArray.map((per) => (
-                  <div className="px-2">
+                {permissionArray.map((per, index) => (
+                  <div className="px-2" key={`category-${index}`}>
                     <label className="px-1">{per}</label>
                     <input
                       type="checkbox"

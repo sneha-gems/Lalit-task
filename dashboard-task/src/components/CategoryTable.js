@@ -15,6 +15,7 @@ export const CategoryTable = ({ permissions }) => {
     deleteCategory(id);
     setCategory(category.filter((user) => user._id !== id));
   };
+
   return (
     <table className="table table-bordered">
       <TableHeader data={categoryHeader} />

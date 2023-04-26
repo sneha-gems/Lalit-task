@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { logout } from "../utils";
 
 export const Navbar = () => {
   const navigate = useNavigate();
+
   const handleClick = () => {
-    localStorage.setItem("token", "");
+    logout();
     navigate("/login");
   };
   return (

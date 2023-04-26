@@ -6,6 +6,7 @@ import { TableHeader } from "./TableHeader";
 
 export const UserTable = ({ permissions }) => {
   const [users, setUsers] = useState([]);
+
   const handleDeleteUser = (id) => {
     deleteUser(id);
     setUsers(users.filter((user) => user._id !== id));

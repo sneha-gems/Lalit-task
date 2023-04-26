@@ -1,11 +1,10 @@
 import axios from "axios";
-import { BASE_URL } from "./constant";
+import { BASE_URL, getHeaders } from "./constant";
 
 export const deleteUser = (id) => {
-  const token = JSON.parse(localStorage.getItem("token"));
   axios
-    .delete(`${BASE_URL}users/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
+    .delete(`${BASE_URL}/users/${id}`, {
+      headers: getHeaders(),
     })
     .then((res) => console.log("res", res))
     .catch((err) => alert(err));

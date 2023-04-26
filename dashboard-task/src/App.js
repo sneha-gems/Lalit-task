@@ -1,14 +1,18 @@
-import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import { Login } from "./pages/Login";
-import { Register } from "./pages/Register";
-import { Dashboard } from "./pages/Dashboard";
+//Packege Import
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+//Custom file Import.
 import { Profile } from "./pages/Profile";
 import { PageNotFound } from "./pages/PageNotFound";
 import { UserContext } from "./context";
-import { Navigate } from "react-router-dom";
+import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
+import { Dashboard } from "./pages/Dashboard";
+
+//Css import
+import "./App.css";
 
 function App() {
   const navigate = useNavigate();
@@ -16,7 +20,6 @@ function App() {
   const [user, setUser] = useState({});
 
   const token = useMemo(() => localStorage.getItem("token"), []);
-  console.log("token", token);
 
   useEffect(() => {
     if (!token) {

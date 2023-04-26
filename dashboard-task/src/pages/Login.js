@@ -1,13 +1,18 @@
+//Packages Import
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
+
+//Custom file Import
 import { login } from "../api/login";
-import "../App.css";
 import { UserContext } from "../context";
+
+//Css Import
+import "../App.css";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -15,10 +20,8 @@ export const Login = () => {
     },
     onSubmit: (values) => {
       login(values, function (res) {
-        if (res?.status === 200) {
-          console.log("res", res?.data);
+        if (res?.status === 200 || res?.status === 201) {
           setUser(res?.data);
-          console.log("user", user);
           navigate("/profile");
         }
       });
