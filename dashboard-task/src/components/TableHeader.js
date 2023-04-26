@@ -1,12 +1,11 @@
-export const TableHeader = () => {
+export const TableHeader = ({ data }) => {
   return (
     <thead>
       <tr>
         <th>#</th>
-        <th>First</th>
-        <th>Last</th>
-        <th>Project</th>
-        <th>Action</th>
+        {data.map((item, index) => (
+          <th key={index}>{item}</th>
+        ))}
       </tr>
     </thead>
   );

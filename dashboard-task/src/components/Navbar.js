@@ -37,7 +37,7 @@ export const Navbar = () => {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/register">
-                Register Page
+                Sign Up
               </a>
             </li>
             <li className="nav-item">
